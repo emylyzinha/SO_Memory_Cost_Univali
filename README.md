@@ -1,17 +1,34 @@
-# SO_Memory_Cost_Univali
+# SO - Processamento de Imagens
 
-Programa 01
-- Comando compilação: 
+Projeto em C++ que aplica filtros em imagens PGM usando **FIFO** e **threads**.
+--
 
-Programa 02
-- Comando compilação: 
+##Comandos - Gerar imagem com filtro negativo:
 
-Programa 03
-- Comando compilação: 
+### Terminal 1:
+- rm /tmp/imgpipe
+- mkfifo /tmp/imgpipe
+- g++ src/sender.cpp src/pgm_utils.cpp -o sender -lpthread
+- g++ src/worker.cpp src/pgm_utils.cpp src/filters.cpp -o worker -lpthread
+- ./worker saida_negativo.pgm negativo <quantidade de threads>
 
+### Termminal 2:
+- ./sender img/templo_do_sol.pgm
 
 --
-- Comandos Linux:
 
-- Comandos Windows:
+##Comandos - Gerar imagem com filtro de limiarização com fatiamento:
 
+### Terminal 1:
+- rm /tmp/imgpipe
+- mkfifo /tmp/imgpipe
+- g++ src/sender.cpp src/pgm_utils.cpp -o sender -lpthread
+- g++ src/worker.cpp src/pgm_utils.cpp src/filters.cpp -o worker -lpthread
+- ./worker resultado-limiarizacao.pgm slice 80 160 <quantidade de threads>
+
+### Termminal 2:
+- ./sender img/templo_do_sol.pgm
+
+*Observações:*
+- Inicie sempre o worker antes do sender.
+- No modo slice, pixels fora de [t1, t2] viram branco (255); dentro do intervalo, mantêm o tom original.
